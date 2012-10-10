@@ -9,6 +9,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,6 +39,9 @@ public class WalkWithYouOnderzoek extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_walk_with_you_onderzoek);
+		
+		checkEmailIsSet();
+	
 		try {
 			breadcrumbs = dao.getBreadcrumbs(getFile());
 		} catch (Exception e) {
@@ -72,6 +77,15 @@ public class WalkWithYouOnderzoek extends Activity {
 
 		
 		
+	}
+
+	private void checkEmailIsSet() {
+		SharedPreferences settings = getSharedPreferences(AskEmail.PREFS_NAME, 0);
+		String email = settings.getString("email", null);
+		if(email == null || email.equals("")) {
+			Intent i = new Intent(this, AskEmail.class);
+			startActivity(i);
+		}
 	}
 
 	@Override
@@ -112,19 +126,5 @@ public class WalkWithYouOnderzoek extends Activity {
 		File wwydaba = new File(root + "/wwydaba.obj");
 		return "" + wwydaba;
 	}
-	public void thisworks() {
-		File root = getExternalFilesDir(null);
-		File testfile = new File(root + "/testwwy.txt");
-		try {
-			FileOutputStream fos = new FileOutputStream(testfile);
-			fos.write("blabla".getBytes());
-			fos.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	
 }
