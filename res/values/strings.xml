@@ -7,5 +7,8 @@
     <string name="AanUitKnopText">Aan</string>
     <string name="text">Thankyou for participating in our research. To start press aan. The application will run in the background after. Note that gps need to be on </string>
     <string name="title_activity_walk_with_you_onderzoek">WWYOnderzoek</string>
+    <string name="title_activity_ask_email">AskEmail</string>
+    <string name="emailtext">Vul het email adres in waar de data heen geexporteerd zal worden</string>
+    <string name="Ok">Ok</string>
 
 </resources>
