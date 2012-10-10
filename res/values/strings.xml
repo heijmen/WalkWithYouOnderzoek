@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">WalkWithYouOnderzoek</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="AanUitKnopText">Aan</string>
+    <string name="text">Thankyou for participating in our research. To start press aan. The application will run in the background after. Note that gps need to be on </string>
+    <string name="title_activity_walk_with_you_onderzoek">WWYOnderzoek</string>
+
+</resources>
