@@ -10,5 +10,6 @@
     <string name="title_activity_ask_email">AskEmail</string>
     <string name="emailtext">Vul het email adres in waar de data heen geexporteerd zal worden</string>
     <string name="Ok">Ok</string>
+    <string name="POIText">Herkenningspunt</string>
 
 </resources>

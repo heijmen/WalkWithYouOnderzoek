@@ -1,11 +1,6 @@
 package com.example.walkwithyouonderzoek;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,11 +12,14 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ToggleButton;
 import eu.uniek.wwy.database.BreadcrumbsDAO;
-import eu.uniek.wwy.location.GPSLocation;
+import eu.uniek.wwy.database.DataWrapper;
 import eu.uniek.wwy.location.GPSLocationListener;
 import eu.uniek.wwy.utils.ToastUtil;
 
@@ -33,17 +31,19 @@ public class WalkWithYouOnderzoek extends Activity {
 	private GPSLocationListener gpsLocationListener = new GPSLocationListener();
 	private BreadcrumbsDAO dao = new BreadcrumbsDAO();
 	private Context context = this;
-	private List<GPSLocation> breadcrumbs = new ArrayList<GPSLocation>();
+	private DataWrapper dataWrapper = new DataWrapper();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_walk_with_you_onderzoek);
-		
+		if(!sdWritable()) {
+			ToastUtil.showToast(this, "sdcard is not writable");
+		}
 		checkEmailIsSet();
 	
 		try {
-			breadcrumbs = dao.getBreadcrumbs(getFile());
+			dataWrapper = dao.getData(getFile());
 		} catch (Exception e) {
 			ToastUtil.showToast(context, e.getMessage());
 		}
@@ -53,11 +53,10 @@ public class WalkWithYouOnderzoek extends Activity {
 			public void run() {
 				if(gpsLocationListener.getCurrentLocation() != null) {
 					try {
-						breadcrumbs.add(gpsLocationListener.getCurrentLocation());
-						dao.saveBreadcrumbs(breadcrumbs, getFile());
+						dataWrapper.getBreadcrumbs().add(gpsLocationListener.getCurrentLocation());
+						dao.saveData(dataWrapper, getFile());
 					} catch (Exception e) {
-						Log.e("sex", e.getMessage(), e.getCause());
-						e.printStackTrace();
+						ToastUtil.showToast(context, e.getMessage());
 					}
 				}
 				updateHandler.postDelayed(this, 5000);
@@ -74,9 +73,17 @@ public class WalkWithYouOnderzoek extends Activity {
 		});
 		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		
-
-		
-		
+		Button herkingButton = (Button) findViewById(R.id.herkenningspunt_button);
+		herkingButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				try {
+					dataWrapper.getPointsOfInterest().add(gpsLocationListener.getCurrentLocation());
+					dao.saveData(dataWrapper, getFile());
+				} catch (Exception e) {
+					ToastUtil.showToast(v.getContext(), e.getMessage());
+				}
+			}
+		});
 	}
 
 	private void checkEmailIsSet() {
@@ -104,20 +111,14 @@ public class WalkWithYouOnderzoek extends Activity {
 		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 1, gpsLocationListener);
 	}
 	private boolean sdWritable() {
-		boolean mExternalStorageAvailable = false;
 		boolean mExternalStorageWriteable = false;
 		String state = Environment.getExternalStorageState();
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
-		    // We can read and write the media
-		    mExternalStorageAvailable = mExternalStorageWriteable = true;
+		    mExternalStorageWriteable = true;
 		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-		    // We can only read the media
-		    mExternalStorageAvailable = true;
 		    mExternalStorageWriteable = false;
 		} else {
-		    // Something else is wrong. It may be one of many other states, but all we need
-		    //  to know is we can neither read nor write
-		    mExternalStorageAvailable = mExternalStorageWriteable = false;
+		    mExternalStorageWriteable = false;
 		}
 		return mExternalStorageWriteable;
 	}
