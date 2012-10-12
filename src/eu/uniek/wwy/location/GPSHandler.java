@@ -8,10 +8,7 @@ public class GPSHandler {
 
 	public static float distanceBetween(GPSLocation firstLocation, GPSLocation secondLocation) {
 		float[] results = new float[3];
-		Location.distanceBetween(
-				firstLocation.getLatitude(), firstLocation.getLongitude(),secondLocation.getLatitude(),
-				 secondLocation.getLongitude(),
-				results);
+		Location.distanceBetween(firstLocation.getLatitude(), firstLocation.getLongitude(), secondLocation.getLatitude(), secondLocation.getLongitude(), results);
 		return results[0];
 	}
 

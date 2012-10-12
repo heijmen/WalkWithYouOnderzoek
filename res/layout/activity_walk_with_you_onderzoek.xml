@@ -31,4 +31,13 @@
         android:text="@string/POIText"
         android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/AanUitKnop"
+        android:layout_below="@+id/herkenningspunt_button"
+        android:layout_marginTop="32dp"
+        android:text="@string/goToMap" />
+
 </RelativeLayout>

@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.walkwithyouonderzoek"
+    package="eu.uniek.wwy"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="15" />
+        android:minSdkVersion="10"
+        android:targetSdkVersion="10" />
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -16,8 +16,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <uses-library android:name="com.google.android.maps" />
+
         <activity
-            android:name=".WalkWithYouOnderzoek"
+            android:name=".walkwithyouonderzoek.WalkWithYouOnderzoek"
             android:label="@string/title_activity_walk_with_you_onderzoek" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,8 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".maps.heat.HeatMapActivity" >
+        </activity>
         <activity
-            android:name=".AskEmail"
+            android:name=".walkwithyouonderzoek.AskEmail"
             android:label="@string/title_activity_ask_email" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

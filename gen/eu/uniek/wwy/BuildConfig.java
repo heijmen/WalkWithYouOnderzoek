@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package com.example.walkwithyouonderzoek;
+package eu.uniek.wwy;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;

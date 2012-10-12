@@ -1,4 +1,4 @@
-package com.example.walkwithyouonderzoek;
+package eu.uniek.wwy.walkwithyouonderzoek;
 
 import java.io.File;
 
@@ -10,7 +10,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,9 +17,11 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ToggleButton;
+import eu.uniek.wwy.R;
 import eu.uniek.wwy.database.BreadcrumbsDAO;
 import eu.uniek.wwy.database.DataWrapper;
 import eu.uniek.wwy.location.GPSLocationListener;
+import eu.uniek.wwy.maps.heat.HeatMapActivity;
 import eu.uniek.wwy.utils.ToastUtil;
 
 public class WalkWithYouOnderzoek extends Activity {
@@ -72,6 +73,16 @@ public class WalkWithYouOnderzoek extends Activity {
 			}
 		});
 		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		final Context c = this;
+		Button mapButton = (Button) findViewById(R.id.map);
+		mapButton.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent i = new Intent(c, HeatMapActivity.class);
+				startActivity(i);
+				
+			}
+		});
 		
 		Button herkingButton = (Button) findViewById(R.id.herkenningspunt_button);
 		herkingButton.setOnClickListener(new OnClickListener() {

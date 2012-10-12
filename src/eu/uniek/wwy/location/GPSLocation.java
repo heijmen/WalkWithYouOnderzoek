@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class GPSLocation  implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private double latitude, longitude;
 	private Calendar calendar;
 
@@ -23,6 +24,7 @@ public class GPSLocation  implements Serializable{
 	public double getLongitude() {
 		return longitude;
 	}
+	
 	public String getTimeCreated() {
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy:hh:mm:ss");
 		String formattedDate = dateFormat.format(calendar.getTime());

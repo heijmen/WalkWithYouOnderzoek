@@ -9,7 +9,8 @@
     <string name="title_activity_walk_with_you_onderzoek">WWYOnderzoek</string>
     <string name="title_activity_ask_email">AskEmail</string>
     <string name="emailtext">Vul het email adres in waar de data heen geexporteerd zal worden</string>
-    <string name="Ok">Ok</string>
+    <string name="Ok">OK</string>
     <string name="POIText">Herkenningspunt</string>
-
+	<string name="goToMap">Open map</string>
+	<string name="exportToKMZ">Exporteer naar KMZ</string>
 </resources>
