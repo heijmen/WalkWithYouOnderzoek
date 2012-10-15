@@ -10,6 +10,9 @@ public class DataWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<GPSLocation> breadcrumbs = new ArrayList<GPSLocation>();
 	private List<GPSLocation> pointsOfInterest = new ArrayList<GPSLocation>();
+	
+	public DataWrapper() {
+	}
 
 	public List<GPSLocation> getBreadcrumbs() {
 		return breadcrumbs;

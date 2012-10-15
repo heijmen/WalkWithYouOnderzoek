@@ -44,7 +44,12 @@ public class WalkWithYouOnderzoek extends Activity {
 		checkEmailIsSet();
 	
 		try {
-			dataWrapper = dao.getData(getFile());
+			File file = new File(getFile());
+			if(file.exists()) {
+				dataWrapper = dao.getData(getFile());
+			} else {
+				dataWrapper = new DataWrapper();
+			}
 		} catch (Exception e) {
 			ToastUtil.showToast(context, e.getMessage());
 		}

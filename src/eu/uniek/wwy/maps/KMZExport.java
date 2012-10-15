@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.zip.ZipOutputStream;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import eu.uniek.wwy.maps.heat.HeatMapActivity;
 import eu.uniek.wwy.maps.heat.HeatPoint;
 import eu.uniek.wwy.utils.ZipUtil;
+import eu.uniek.wwy.walkwithyouonderzoek.AskEmail;
 
 public class KMZExport {
 	private final String fileName = "walkwithyou.png";
@@ -52,14 +54,16 @@ public class KMZExport {
 		zipPath = Environment.getExternalStorageDirectory().getPath()+"/wwy/heatmap.kmz";
 	}
 	private void sendToEmail(HeatMapActivity h, ZipOutputStream createZipFile) {
-		Intent i = createMailIntent();
+		Intent i = createMailIntent(h);
 		startActivity(h, i);
 	}
 	
-	private Intent createMailIntent() {
+	private Intent createMailIntent(HeatMapActivity h) {
+		SharedPreferences settings = h.getSharedPreferences(AskEmail.PREFS_NAME, 0);
+		String email = settings.getString("email", null);
 		Intent i = new Intent(Intent.ACTION_SEND);
 		i.setType("message/rfc822");
-		i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"recipient@example.com"});
+		i.putExtra(Intent.EXTRA_EMAIL  , email);
 		i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
 		i.putExtra(Intent.EXTRA_TEXT   , "Test"); //TODO R.string
 		i.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + zipPath));
