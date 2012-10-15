@@ -53,7 +53,7 @@ public class HeatTask implements Runnable{
 
 	private void addPoint(float x, float y, int times) {
 		RadialGradient g = new RadialGradient(x, y, radius, Color.argb(
-				Math.max(10 * times, 255), 0, 0, 0), Color.TRANSPARENT,
+				Math.max(1 * times, 150), 0, 0, 0), Color.TRANSPARENT,
 				TileMode.CLAMP);
 		Paint gradientPaint = new Paint();
 		gradientPaint.setShader(g);

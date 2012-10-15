@@ -15,6 +15,7 @@ import com.google.android.maps.MapActivity;
 import eu.uniek.wwy.R;
 import eu.uniek.wwy.database.BreadcrumbsDAO;
 import eu.uniek.wwy.database.DataWrapper;
+import eu.uniek.wwy.location.GPSHandler;
 import eu.uniek.wwy.location.GPSLocation;
 import eu.uniek.wwy.maps.BasicMapView;
 import eu.uniek.wwy.maps.KMZExport;
@@ -42,12 +43,21 @@ public class HeatMapActivity extends MapActivity {
 			ToastUtil.showToast(this, e.getMessage());
 		}
 		final BasicMapView mapview = (BasicMapView)findViewById(R.id.mapview);
-		this.overlay = new HeatMap(2000, mapview);
+		this.overlay = new HeatMap(20, mapview);
 		points = new ArrayList<HeatPoint>();
+		List<GPSLocation> whatever = new ArrayList<GPSLocation>();
 		for(GPSLocation location : dataWrapper.getBreadcrumbs()) {
-			points.add(new HeatPoint((float)location.getLatitude(), (float)location.getLongitude()));
-		}
-		
+			int iterator = 0;
+			if(!whatever.contains(location)) {
+			for (GPSLocation breadcrumb : dataWrapper.getBreadcrumbs()) {
+				if (GPSHandler.distanceBetween(location, breadcrumb) <= 20) {
+					iterator++;
+					whatever.add(breadcrumb);
+				}
+			}
+			points.add(new HeatPoint((float)location.getLatitude(), (float)location.getLongitude(), iterator));
+			}
+		}		
 		mapview.getOverlays().add(overlay);
 		mapview.addPanChangeListener(new PanChangeListener() {		
 			public void onPan(GeoPoint old, GeoPoint current) {

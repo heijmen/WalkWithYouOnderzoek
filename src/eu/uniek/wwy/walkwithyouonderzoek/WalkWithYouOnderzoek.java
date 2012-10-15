@@ -65,7 +65,7 @@ public class WalkWithYouOnderzoek extends Activity {
 						ToastUtil.showToast(context, e.getMessage());
 					}
 				}
-				updateHandler.postDelayed(this, 5000);
+				updateHandler.postDelayed(this, 500);
 			}
 		};
 		button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
