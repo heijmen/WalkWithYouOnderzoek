@@ -46,26 +46,35 @@ public class KMZExport {
 		OutputStream mapFileOutputStream = getMapFile(bitmap);
 		setZipPath();
 		ZipOutputStream createZipFile = ZipUtil.createZipFile(zipPath, kmlFile, mapFileOutputStream);
-		sendToEmail(heatmapActivity, createZipFile);
+		sendToEmail(heatmapActivity, createZipFile, points);
 		return "Send export to emailadress";
 	}
 
 	private void setZipPath() {
 		zipPath = Environment.getExternalStorageDirectory().getPath()+"/wwy/heatmap.kmz";
 	}
-	private void sendToEmail(HeatMapActivity h, ZipOutputStream createZipFile) {
-		Intent i = createMailIntent(h);
+	private void sendToEmail(HeatMapActivity h, ZipOutputStream createZipFile, List<HeatPoint> points) {
+		Intent i = createMailIntent(h, points);
 		startActivity(h, i);
 	}
 	
-	private Intent createMailIntent(HeatMapActivity h) {
+	private Intent createMailIntent(HeatMapActivity h, List<HeatPoint> points) {
 		SharedPreferences settings = h.getSharedPreferences(AskEmail.PREFS_NAME, 0);
 		String email = settings.getString("email", null);
 		Intent i = new Intent(Intent.ACTION_SEND);
 		i.setType("message/rfc822");
 		i.putExtra(Intent.EXTRA_EMAIL  , email);
 		i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
-		i.putExtra(Intent.EXTRA_TEXT   , "Test"); //TODO R.string
+		StringBuffer text = new StringBuffer();
+		for (HeatPoint heat : points) {
+			text.append("\nLatitude:\n");
+			text.append(heat.getLatitude());
+			text.append("\nLongitude:\n");
+			text.append(heat.getLongitude());
+			text.append("\nIntensity:\n");
+			text.append(heat.getIntensity());
+		}
+		i.putExtra(Intent.EXTRA_TEXT   , text.toString()); 
 		i.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + zipPath));
 		return i;
 	}
